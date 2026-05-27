@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}STUDENTS {% endblock %}
+
+{% block content %}
+
+<h1 style="color: blue;">Students</h1><br>
+
+{% for student in all_students %}
+    <hr>
+    <h2>Name : {{student.get("name")}}</h2>
+    <h3>ID : {{student.get("id")}}</h3>
+    <h3>AGE: {{student.get("age")}}</h3>
+    <h3>Course: {{student.get("course")}}</h3>
+    <h3>Grade: {{student.get("age")}}</h3>
+    <hr>
+    <br>
+{% endfor %}
+
+
+{% endblock %}

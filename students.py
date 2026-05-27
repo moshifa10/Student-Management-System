@@ -41,3 +41,18 @@ class DataBase():
         self.conn.close()
         return True
     
+
+    def get_student(self, studentId: int) -> tuple:
+        self.cursor.execute(f""" SELECT * FROM {self.table_name} WHERE id = {studentId} LIMIT 1""")
+
+        student = self.cursor.fetchone()
+
+        if(student):
+            self.conn.commit()
+            self.conn.close()
+
+            return student
+        
+        else:
+            return None
+        

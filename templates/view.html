@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %} Student {% endblock  %}
+
+
+
+{% block content %}
+
+<h1 style="color: blue;">Student</h1><br>
+
+    <hr>
+    <h2>Name : {{student[1]}}</h2>
+    <h3>ID : {{student[0]}}</h3>
+    <h3>AGE: {{student[3]}}</h3>
+    <h3>Course: {{student[4]}}</h3>
+    <h3>Grade: {{student[5]}}</h3>
+    <hr>
+    <br>
+
+{% endblock  %}

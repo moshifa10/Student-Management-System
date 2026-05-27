@@ -50,10 +50,6 @@ def create_table(file_name: str, table_name: str):
     conn.close()
 
 
-
-
-
-
 app = Flask(__name__, static_folder="static", template_folder="templates")
 
 
@@ -88,6 +84,17 @@ def add():
             data_base.add_member(name,email,age,course,grade)
 
     return redirect(url_for("list_all_students+"))
+
+@app.route("/student/<int:id>")
+def get_learner(id : int):
+    data_base = DataBase(fileName=filename, table=tablename)    
+    student = data_base.get_student(id)
+
+    if student == None:
+        return render_template("no_students.html"), 404
+    
+    print(student)
+    return render_template("view.html", student=student)
 
 
 if __name__ == "__main__":

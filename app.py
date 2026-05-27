@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, request, url_for
 import sqlite3
 import argparse
 import os
@@ -42,12 +42,16 @@ def create_table(file_name: str, table_name: str):
                 )            
     """)
 
-    cursor.execute(f"INSERT INTO {table_name} (name, email, age, course, grade) VALUES (?,?,?,?,?)", ("Njabs", "mo@gmail.com", 18, "Accounting", "12"))
+    # cursor.execute(f"INSERT INTO {table_name} (name, email, age, course, grade) VALUES (?,?,?,?,?)", ("Njabs", "mo@gmail.com", 18, "Accounting", "12"))
     print(f"Created a Database {file_name}.db")
     print(f"Created a table {table_name}")
     conn.commit()
 
     conn.close()
+
+
+
+
 
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
@@ -62,14 +66,33 @@ def list_all_students():
 
     if students_ == None:
         return render_template("no_students.html"), 404
-
     return render_template("index.html", all_students=students_), 200
+
+@app.route("/add", methods=["GET", "POST"])
+def add():
+    filename, tablename = main()
+    if request.method.lower() == "get":
+        return render_template("form.html"),201
+
+    if request.method.lower() == "post":
+        
+        if len(request.form) == 5:
+            name = request.form.get("name")
+            email = request.form.get("email")
+            age = int(request.form.get("age"))
+            course = request.form.get("course")
+            grade = request.form.get("grade")
+
+            data_base = DataBase(fileName=filename, table=tablename)
+
+            data_base.add_member(name,email,age,course,grade)
+
+    return redirect(url_for("list_all_students+"))
+
 
 if __name__ == "__main__":
     
     filename, tablename = main()
     if not os.path.isfile(filename):
         create_table(file_name=filename, table_name=tablename)
-
-    
     app.run(host="localhost", debug=True, port=5000)

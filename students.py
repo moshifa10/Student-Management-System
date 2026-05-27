@@ -8,8 +8,8 @@ class DataBase():
         self.table_name = table.lower().strip()
 
         # Connect DB
-        conn = sqlite3.connect(f"{fileName}.db")
-        self.cursor = conn.cursor()
+        self.conn = sqlite3.connect(f"{fileName}.db")
+        self.cursor = self.conn.cursor()
 
 
     
@@ -32,3 +32,12 @@ class DataBase():
             students.append(fields)
         return students
         
+
+    def add_member(self, name: str, email: str, age: int, course: str, grade: str) -> bool:
+        values = (name, email, age, course, grade)
+
+        self.cursor.execute(f"INSERT INTO {self.table_name} (name, email, age, course, grade) VALUES (?,?,?,?,?)", values)
+        self.conn.commit()
+        self.conn.close()
+        return True
+    

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %} Delete {% endblock %}
+
+{% block content  %}
+<h1 style="text-align: center; font-size: 56px; color: chocolate;">Confirmation Page</h1>
+<form action="{{url_for('delete', id=student)}}" method="post">
+    <button type="submit">Delete</button>
+</form>
+{% endblock %}

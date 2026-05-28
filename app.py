@@ -121,6 +121,25 @@ def edit(id: int):
         
         return render_template("no_students.html")
     
+@app.route("/delete/<int:id>", methods=["GET", "POST"])
+def delete(id):
+
+    if request.method == "GET":
+        return render_template("delete_confirm.html",student=id)
+    
+    elif request.method == "POST":
+        data_base = DataBase(fileName=filename, table=tablename)
+
+        data_base.delete(id)
+        return redirect(url_for("list_all_students"))
+
+
+
+
+
+
+
+
 
 if __name__ == "__main__":
     

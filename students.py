@@ -67,3 +67,10 @@ class DataBase():
 
         self.conn.commit()
         return True
+    
+    def delete(self, studentId) -> bool:
+        student = [studentId]
+        self.cursor.execute(f"DELETE FROM {self.table_name} WHERE id = ?", (tuple(student)))
+
+        self.conn.commit()
+        return True

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}STUDENTS {% endblock %}
+
+{% block content %}
+
+<h1 style="color: blue;">Fill Form</h1><br>
+
+<form action="{{url_for('edit', id=student[0])}}" method="post">
+
+    <input type="text" name="name" placeholder="Name"  value="{{student[1]}}" required><br>
+    <input type="email" name="email" placeholder="Email" value="{{student[2]}}" required><br>
+    <input type="text" name="age" placeholder="Age" value="{{student[3]}}" required><br>
+    <input type="text" name="course" placeholder="Course" value="{{student[4]}}" required><br>
+    <input type="text" name="grade" placeholder="Grade" value="{{student[5]}}" required><br>
+    <button type="submit">Submit</button>
+    
+</form>
+
+
+
+{% endblock %}

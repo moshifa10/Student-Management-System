@@ -38,21 +38,32 @@ class DataBase():
 
         self.cursor.execute(f"INSERT INTO {self.table_name} (name, email, age, course, grade) VALUES (?,?,?,?,?)", values)
         self.conn.commit()
-        self.conn.close()
         return True
     
 
     def get_student(self, studentId: int) -> tuple:
         self.cursor.execute(f""" SELECT * FROM {self.table_name} WHERE id = {studentId} LIMIT 1""")
-
+        # self.cursor.execute(f"UPDATE {self.table_name} SET name = ? WHERE id = ?", ("Alice", 1))
         student = self.cursor.fetchone()
 
         if(student):
             self.conn.commit()
-            self.conn.close()
+
 
             return student
         
         else:
             return None
-        
+
+
+    def edit(self, studentId: int, name: str, email: str, age: int, course: str, grade: str):
+        self.cursor.execute(f"""
+
+            UPDATE {self.table_name}
+            SET name = ?, email = ?, age = ?, course = ?, grade = ?
+            WHERE id = {studentId};
+        """, (name,email,age,course,grade)
+        )
+
+        self.conn.commit()
+        return True

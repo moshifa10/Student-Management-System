@@ -83,7 +83,7 @@ def add():
 
             data_base.add_member(name,email,age,course,grade)
 
-    return redirect(url_for("list_all_students+"))
+    return redirect(url_for("list_all_students"))
 
 @app.route("/student/<int:id>")
 def get_learner(id : int):
@@ -96,6 +96,31 @@ def get_learner(id : int):
     print(student)
     return render_template("view.html", student=student)
 
+@app.route("/edit/<int:id>", methods=["GET", "POST"])
+def edit(id: int):
+    data_base = DataBase(fileName=filename, table=tablename)    
+    student = data_base.get_student(id)
+    if student == None:
+        return render_template("no_students.html"), 404
+    
+    if request.method == "GET":
+        return render_template("edit_forms.html", student=student)
+    
+    elif request.method == "POST":  
+        if len(request.form) == 5:
+            name = request.form.get("name")
+            email = request.form.get("email")
+            age = int(request.form.get("age"))
+            course = request.form.get("course")
+            grade = request.form.get("grade")
+
+            data_base = DataBase(fileName=filename, table=tablename)
+
+            data_base.edit(id,name,email,age, course, grade)
+            return redirect(url_for("list_all_students"))
+        
+        return render_template("no_students.html")
+    
 
 if __name__ == "__main__":
     

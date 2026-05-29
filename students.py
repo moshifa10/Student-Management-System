@@ -74,3 +74,7 @@ class DataBase():
 
         self.conn.commit()
         return True
+    
+
+    def __del__(self):
+        self.conn.close()

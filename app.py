@@ -24,7 +24,7 @@ def main():
 
     args = parser.parse_args()
     return args.filename, args.table
-
+filename, tablename = main()
 
 
 
@@ -55,7 +55,7 @@ app = Flask(__name__, static_folder="static", template_folder="templates")
 
 @app.route("/")
 def list_all_students():
-    filename, tablename = main()
+    
     data_base = DataBase(fileName=filename, table=tablename)
     students_ = data_base.get_students()
     print(students_)
@@ -123,27 +123,19 @@ def edit(id: int):
     
 @app.route("/delete/<int:id>", methods=["GET", "POST"])
 def delete(id):
-
+    filename, tablename = main()
     if request.method == "GET":
         return render_template("delete_confirm.html",student=id)
     
     elif request.method == "POST":
         data_base = DataBase(fileName=filename, table=tablename)
-
+    
         data_base.delete(id)
         return redirect(url_for("list_all_students"))
 
-
-
-
-
-
-
-
-
 if __name__ == "__main__":
     
-    filename, tablename = main()
+    
     if not os.path.isfile(filename):
         create_table(file_name=filename, table_name=tablename)
     app.run(host="localhost", debug=True, port=5000)
